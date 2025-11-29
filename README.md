@@ -171,4 +171,4 @@ README.md
 
 ## 📬 Contact
  
-LinkedIn: <a href="linkedin.com/in/anirudh-mehandru">linkedin.com/in/anirudh-mehandru <a>
+LinkedIn: <a href="https://www.linkedin.com/in/anirudh-mehandru/">linkedin.com/in/anirudh-mehandru </a>
