@@ -26,6 +26,7 @@ The goal was simple:
 - MITRE ATT&CK alignment throughout the investigation
 
 Architecture Diagram (ASCII):
+
 [Attacker VM] → Brute-force / Persistence Attacks  
         ↓  
 [Victim Windows 10] → Sysmon + Windows Logs  
