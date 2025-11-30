@@ -1,0 +1,42 @@
+{
+  "project": "Enterprise SOC Simulation & Threat Detection Lab",
+  "techniques": [
+    {
+      "id": "T1110",
+      "name": "Brute Force",
+      "attack_type": "Credential Access",
+      "scenario": "RDP brute-force using Hydra",
+      "detection": "4625 failed logon spike, time-window correlation"
+    },
+    {
+      "id": "T1547",
+      "subtechnique": "T1547.001",
+      "name": "Boot or Logon Autostart Execution: Registry Run Keys",
+      "attack_type": "Persistence",
+      "scenario": "Added malicious autorun via registry Run Key",
+      "detection": "Sysmon Event IDs 13 & 11, Run Key path monitoring"
+    },
+    {
+      "id": "T1059",
+      "subtechnique": "T1059.001",
+      "name": "Command and Scripting Interpreter: PowerShell",
+      "attack_type": "Execution",
+      "scenario": "Executed suspicious PowerShell payloads",
+      "detection": "Sysmon process creation, encoded command detection"
+    },
+    {
+      "id": "T1021",
+      "name": "Remote Services",
+      "attack_type": "Lateral Movement",
+      "scenario": "Observed RDP authentication attempts",
+      "detection": "Security Log 4624/4625 correlation"
+    },
+    {
+      "id": "T1595",
+      "name": "Active Scanning",
+      "attack_type": "Reconnaissance",
+      "scenario": "Attacker enumeration from Kali Linux",
+      "detection": "Logon failures + network scanning patterns"
+    }
+  ]
+}
