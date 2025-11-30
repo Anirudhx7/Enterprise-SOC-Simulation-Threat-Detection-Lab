@@ -2,7 +2,7 @@
 **Active Directory | Sysmon | Splunk SIEM | Brute Force | Persistence | MITRE ATT&CK**
 
 A hands-on SOC (Security Operations Center) simulation designed to replicate **real-world enterprise detection workflows**.  
-This project demonstrates how identity attacks, persistence techniques, and suspicious command execution appear inside Windows logs — and how a SOC analyst detects, investigates, and documents them.
+This project demonstrates how identity attacks, persistence techniques, and suspicious command execution appear inside Windows logs and how a SOC analyst detects, investigates, and documents them.
 
 ---
 
@@ -69,7 +69,6 @@ Built to practice real SOC workflows, including:
 - **Hydra** (for brute-force simulation)
 - **MITRE ATT&CK**
 - **GPO Hardening**
-- **Winlogbeat/WEF** (optional forwarding)
 
 ---
 
