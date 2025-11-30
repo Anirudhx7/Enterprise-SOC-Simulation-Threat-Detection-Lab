@@ -61,7 +61,6 @@ Built to practice real SOC workflows, including:
         └────────────────────────────┘
 ```
 
-```
 
 ### **Tools Used**
 - **Splunk Enterprise (SIEM)**
