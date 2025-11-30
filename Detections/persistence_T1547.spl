@@ -8,3 +8,8 @@ index=sysmon EventCode=13 OR EventCode=12 OR EventCode=11
 | search TargetObject="*\\Microsoft\\Windows\\CurrentVersion\\Run*"
 | eval severity="high", technique_id="T1547.001", technique="Registry Run Key Persistence"
 | table _time, Computer, User, Image, TargetObject, Details, EventCode, technique, technique_id, severity
+
+
+What it detects:
+
+> When anything tries to add/modify/delete Run Keys, a classic persistence technique.
