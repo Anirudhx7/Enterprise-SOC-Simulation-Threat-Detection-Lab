@@ -1,0 +1,13 @@
+###############################################
+# Detection: RDP Brute-Force (T1110)
+# Author: Anirudh Mehandru
+# Purpose: Detect abnormal spikes in failed RDP logons
+###############################################
+
+index=wineventlog sourcetype="WinEventLog:Security" EventCode=4625
+Logon_Type=10
+| stats count values(Failure_Reason) AS Failure_Reasons BY Account_Name, IpAddress, Workstation_Name
+| where count > 20
+| eval severity="high", technique_id="T1110", technique="Brute Force"
+| table _time, Account_Name, IpAddress, Workstation_Name, Failure_Reasons, count, severity, technique, technique_id
+
