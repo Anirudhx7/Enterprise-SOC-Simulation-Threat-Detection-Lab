@@ -11,3 +11,6 @@ Logon_Type=10
 | eval severity="high", technique_id="T1110", technique="Brute Force"
 | table _time, Account_Name, IpAddress, Workstation_Name, Failure_Reasons, count, severity, technique, technique_id
 
+What it detects:
+
+> 20+ failed RDP logins from the same IP/user, strong brute-force signal.
