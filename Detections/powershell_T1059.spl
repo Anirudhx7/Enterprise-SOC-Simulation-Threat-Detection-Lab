@@ -1,0 +1,10 @@
+###############################################
+# Detection: Suspicious PowerShell Execution (T1059.001)
+# Author: Anirudh Mehandru
+# Purpose: Detect encoded, obfuscated, or malicious PowerShell commands
+###############################################
+
+index=sysmon EventCode=1 Image="*powershell.exe"
+| search CommandLine="*-enc*" OR CommandLine="*IEX*" OR CommandLine="*download*" OR CommandLine="*invoke*" OR CommandLine="*FromBase64String*"
+| eval severity="medium", technique_id="T1059.001", technique="PowerShell Execution"
+| table _time, Computer, User, ParentImage, Image, CommandLine, technique, technique_id, severity
