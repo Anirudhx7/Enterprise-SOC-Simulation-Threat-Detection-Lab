@@ -28,19 +28,39 @@ Built to practice real SOC workflows, including:
 # 🧱 1. Lab Architecture
 
 ```
-Windows Server (Domain Controller)
-│
-├── Active Directory (AD DS)
-├── DNS + GPO Security Baselines
-└── Windows Event Forwarding (optional)
+                 Attacks
+          ┌──────────────────────┐
+          │ Kali Linux(Red Team) │
+          │----------------------│
+          │ Hydra, PowerShell,   │
+          │ Persistence, Scanning│
+          └───────────┬──────────┘
+                      │
+      Attacks Windows │ and AD SERVER
+                      ▼
+      ┌───────────────────────────────────┐
+      │     Windows 10 Endpoint (Victim)  │
+      │-----------------------------------│
+      │ Sysmon Telemetry (Process, Reg,   │
+      │ Network)                          │
+      └───────────────┬───────────────────┘
+                      │   Forwards Logs
+                      ▼
+      ┌───────────────────────────────────┐
+      │ Windows Server 2022 (Domain Ctrl) │
+      │-----------------------------------│
+      │ AD DS, DNS, Auth Logs (4624/4625) │
+      └───────────────┬───────────────────┘
+                      │    Forwards Logs
+                      ▼
+        ┌────────────────────────────┐
+        │ Ubuntu Server (Splunk SIEM)│
+        │----------------------------│
+        │ Receives Sysmon + Windows  │
+        │ Security Logs for analysis │
+        └────────────────────────────┘
+```
 
-Windows 10 Endpoint (Victim/Attacker)
-│
-└── Sysmon (Process + Registry + Network Telemetry)
-
-Splunk Enterprise (SIEM)
-│
-└── Sysmon + Security Logs → Indexed, analyzed, and correlated
 ```
 
 ### **Tools Used**
