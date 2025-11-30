@@ -1,174 +1,210 @@
-# Enterprise SOC Simulation & Threat Detection Lab
+# 🛡️ Enterprise SOC Simulation & Threat Detection Lab  
+**Active Directory | Sysmon | Splunk SIEM | Brute Force | Persistence | MITRE ATT&CK**
 
-A hands-on SOC (Security Operations Center) simulation designed to replicate real-world enterprise detection workflows using Splunk, Sysmon, Windows Event Logs, and Active Directory.  
-This project focuses on generating attacker telemetry, building custom detection rules, and producing MITRE-aligned incident reports.
-
----
-
-## 🔍 About This Project
-
-This lab simulates how a SOC monitors, detects, and investigates malicious activity inside a Windows enterprise environment.  
-I built an Active Directory–based network, configured centralized log forwarding into Splunk, generated real attack telemetry (brute-force + persistence), and developed custom SPL detections mapped to MITRE ATT&CK techniques.
-
-The goal was simple:  
-**Understand attacker behavior → detect it → investigate it → document it like a real SOC analyst.**
+A hands-on SOC (Security Operations Center) simulation designed to replicate **real-world enterprise detection workflows**.  
+This project demonstrates how identity attacks, persistence techniques, and suspicious command execution appear inside Windows logs — and how a SOC analyst detects, investigates, and documents them.
 
 ---
 
-## 🧱 Lab Architecture
+# 🎯 Project Goal  
+Most SOC labs only “install tools.”
 
-- Domain Controller (Windows Server 2019)
-- Windows 10 Workstation (Attacker + Victim simulation)
-- Sysmon v14+ for detailed host telemetry
-- Splunk Enterprise as the SIEM for log ingestion + alerting
-- Hydra for brute-force simulations
-- Winlogbeat / WEF for Windows log forwarding (optional)
-- MITRE ATT&CK alignment throughout the investigation
+This project goes deeper:
 
-Architecture Diagram (ASCII):
+**Simulate attacks → Capture telemetry → Engineer detections → Investigate → Produce MITRE-aligned findings.**
 
-[Attacker VM] → Brute-force / Persistence Attacks  
-        ↓  
-[Victim Windows 10] → Sysmon + Windows Logs  
-        ↓  
-[Splunk Server] ← Centralized Log Forwarding  
-        ↓  
-[Detection Engineering + IR Report]
+Built to practice real SOC workflows, including:
+
+- Active Directory monitoring  
+- Centralized log ingestion  
+- Sysmon-based visibility  
+- Identity attack detection  
+- Registry persistence triage  
+- SPL correlation rule creation  
+- Incident response reporting  
 
 ---
 
-## 🎯 Objectives
+# 🧱 1. Lab Architecture
 
-- Build an enterprise-style detection environment  
-- Generate realistic attacker telemetry  
-- Tune detection logic using SPL rules  
-- Correlate Sysmon + Windows logs  
-- Investigate persistence techniques  
-- Create MITRE-aligned IR documentation  
+```
+Windows Server (Domain Controller)
+│
+├── Active Directory (AD DS)
+├── DNS + GPO Security Baselines
+└── Windows Event Forwarding (optional)
+
+Windows 10 Endpoint (Victim/Attacker)
+│
+└── Sysmon (Process + Registry + Network Telemetry)
+
+Splunk Enterprise (SIEM)
+│
+└── Sysmon + Security Logs → Indexed, analyzed, and correlated
+```
+
+### **Tools Used**
+- **Splunk Enterprise (SIEM)**
+- **Sysmon v14+**
+- **Windows Event Logs**
+- **Hydra** (for brute-force simulation)
+- **MITRE ATT&CK**
+- **GPO Hardening**
+- **Winlogbeat/WEF** (optional forwarding)
 
 ---
 
-## 🛠️ Tools Used
+# ⚡ 2. Attack Scenarios Simulated
 
-- Splunk Enterprise  
-- Sysmon  
-- Windows Event Logs  
-- Active Directory (AD DS)  
-- Hydra  
-- Winlogbeat / WEF  
-- MITRE ATT&CK Navigator  
-
----
-
-## ⚡ Attack Scenarios Simulated
-
-### 1. RDP Brute Force (Credential Access — T1110)
+## 🔸 A. RDP Brute-Force Attack  
+**MITRE: T1110 — Brute Force**
 
 What I did:
-- Simulated RDP brute-force attacks using Hydra  
-- Generated 5,000+ failed logon events  
+- Launched Hydra brute-force attempts against the Domain Controller  
+- Generated **5,000+ failed logons (Event ID 4625)**  
 
-Key logs captured:
-- Event ID 4625 — Failed logon  
-- Event ID 4624 — Successful logon  
-- Sysmon ProcessCreate events  
+What I captured:
+- Repeated credential attempts  
+- Abnormal authentication patterns  
+- Source IP profiling  
+- Account enumeration behavior  
 
-Analysis:
-- Abnormal authentication patterns visualized in Splunk  
-- Mapped to MITRE technique T1110 (Brute Force)
+> **Detection:** Splunk correlation rule + thresholding on failed logons
 
 ---
 
-### 2. Registry Run Key Persistence (T1547)
+## 🔸 B. Registry Run Key Persistence  
+**MITRE: T1547 — Registry Run Key / Startup Folder**
 
 What I did:
-- Added unauthorized Run Key entries to simulate persistence  
-- Sysmon Event 13 captured key modifications  
+- Added unauthorized persistence via registry Run Key  
 
-Analysis:
-- Correlated registry events with process creation  
-- Identified suspicious autorun entries  
-- Mapped to MITRE T1547 (Registry Run Key / Startup Folder)
+What I captured:
+- Sysmon Event ID **13** — Registry value set  
+- Sysmon Event ID **11** — File created  
+- Suspicious startup chain  
 
----
-
-## 📈 Custom SPL Detection Rules
-
-Brute Force Detection (4625):
-index=wineventlog EventCode=4625  
-| stats count by Account_Name, Source_Network_Address  
-| where count > 20  
-
-Registry Persistence Detection (T1547):
-index=sysmon EventCode=13  
-| search TargetObject="*\\Run"  
-| stats values(Image) as Process, values(TargetObject) as RegistryKey by Computer  
+> **Detection:** Registry modification + parent/child tree analysis
 
 ---
 
-## 🧪 Detection Results
+## 🔸 C. Suspicious PowerShell Execution  
+**MITRE: T1059 — Command and Scripting Interpreter**
 
-- Detected RDP brute-force attempts  
-- Identified unauthorized Run Key modifications  
-- Reconstructed attacker timelines via Sysmon + Windows logs  
-- Verified full log flow through centralized forwarding → Splunk  
+What I did:
+- Executed encoded + suspicious PowerShell commands  
 
----
+What I captured:
+- Sysmon Event ID **1** — Process create  
+- Obfuscated commands  
+- PowerShell spawned by unusual parents  
 
-## 📄 Incident Response Report (MITRE Mapped)
-
-Includes:
-- IOC summary  
-- Attack timeline  
-- Affected hosts  
-- MITRE mappings:  
-  - T1110 — Brute Force  
-  - T1547 — Registry Run Key Persistence  
-- Recommended detection improvements  
-- Remediation steps  
-- Reusable triage notes  
-
-Files:
-- Reports/IR_Report.pdf  
-- Reports/MITRE_Mapping.json  
-
----
-<!--
-## 📁 Repository Structure
-
-/Screenshots  
-    brute-force-events.png  
-    registry-persistence.png  
-    splunk-dashboard.png  
-
-/Detections  
-    brute_force_rule.spl  
-    persistence_T1547_rule.spl  
-
-/Reports  
-    IR_Report.pdf  
-    MITRE_Mapping.json  
-
-/Configs  
-    sysmon-config.xml  
-    splunk-inputs.conf  
-    winlogbeat.yml  
-
-README.md  
--->
----
-
-## 🧠 Key Learnings
-
-- How Windows authentication attacks appear across logs  
-- How Sysmon enriches detection visibility  
-- How to design SPL correlation rules  
-- How to map activity to MITRE ATT&CK  
-- How to write a SOC-ready incident report  
-- How attackers use persistence techniques  
+> **Detection:** Command-line + parent process heuristics
 
 ---
 
-## 📬 Contact
- 
-LinkedIn: <a href="https://www.linkedin.com/in/anirudh-mehandru/">linkedin.com/in/anirudh-mehandru </a>
+# 📊 3. Splunk Detection Engineering
+
+### ✔ **Anomalous Logon Behavior (4625 spikes)**  
+```spl
+index=wineventlog EventCode=4625
+| stats count by Account_Name, IpAddress, Workstation_Name
+| where count > 20
+```
+
+### ✔ **Registry Persistence (Run Key)**  
+```spl
+index=sysmon EventCode=13
+| search TargetObject="*\\Run*"
+| table Computer, User, Image, TargetObject
+```
+
+### ✔ **Suspicious PowerShell Execution**  
+```spl
+index=sysmon EventCode=1 Image="*powershell.exe"
+| search CommandLine="*-enc*" OR CommandLine="*IEX*" OR CommandLine="*download*"
+```
+
+### ✔ **Process Tree Abnormalities**  
+```spl
+index=sysmon EventCode=1
+| where ParentImage="*cmd.exe" AND Image="*powershell.exe"
+```
+
+---
+
+# 🧠 4. Key Findings
+
+- RDP brute-force patterns create highly distinct authentication bursts  
+- Sysmon’s registry and process telemetry reveals persistence clearly  
+- Splunk correlation rules dramatically reduce false positives  
+- MITRE alignment helps communicate attacker behavior clearly  
+- Combined Sysmon + AD logs provide strong identity-attack visibility  
+
+**MTTD (Mean Time To Detect) reduced to under 60 seconds** during simulations.
+
+---
+
+# 🕵️ 5. MITRE ATT&CK Mapping
+
+| Technique | ID | Observed |
+|----------|-----|---------|
+| Brute Force | **T1110** | ✔ |
+| Registry Run Key Persistence | **T1547** | ✔ |
+| PowerShell Execution | **T1059** | ✔ |
+| Remote Services (RDP) | **T1021** | ✔ |
+| Credential Access (Kerberos-related noise) | **T1003** | Partial |
+| Active Scanning | **T1595** | ✔ |
+
+---
+
+# 🧩 6. Project Files
+
+```
+/detections
+    brute_force_T1110.spl
+    persistence_T1547.spl
+    powershell_T1059.spl
+
+/reports
+    SOC_Investigation_Report.md
+    MITRE_Mapping.json
+
+/attacks
+    hydra_bruteforce_commands.txt
+    registry_persistence_script.ps1
+
+/configs
+    sysmon-config.xml
+    splunk-inputs.conf
+
+/screenshots
+    event_flows/
+    dashboards/
+```
+
+---
+
+# 📘 7. Learning Outcomes
+
+Through this project I gained hands-on experience in:
+
+- Investigating Windows identity attacks  
+- Designing SIEM detections using SPL  
+- Using Sysmon for high-fidelity host telemetry  
+- Correlating logs from multiple sources  
+- Understanding attacker tradecraft  
+- Creating structured SOC reports  
+- Mapping behavior to MITRE ATT&CK  
+
+This is the exact kind of workflow used in real SOC Tier 1 & Tier 2 environments.
+
+
+---
+
+# 🙌 8. About Me
+**Anirudh Mehandru**  
+SOC Analyst | Blue Team | Detection Engineering  
+Always building labs, learning in public, and sharing my journey.
+
+LinkedIn → https://linkedin.com/in/anirudh-mehandru
