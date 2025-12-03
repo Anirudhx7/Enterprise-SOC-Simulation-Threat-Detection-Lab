@@ -148,7 +148,7 @@ index=sysmon EventCode=1 Image="*powershell.exe"
 index=sysmon EventCode=1
 | where ParentImage="*cmd.exe" AND Image="*powershell.exe"
 ```
-
+<img src='https://github.com/Anirudhx7/Enterprise-SOC-Simulation-Threat-Detection-Lab/blob/e3d3e044067fe5b1578f22b6c03ebb4f967a2bf5/images/splunk_event-id.png'>
 ---
 
 # 🧠 4. Key Findings
