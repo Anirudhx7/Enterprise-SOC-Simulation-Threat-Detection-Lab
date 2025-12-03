@@ -199,6 +199,8 @@ index=sysmon EventCode=1
 /images
     setup.png
     architecture.png
+    splunk_event-id.png
+    hyrda.png
 ```
 
 ---
