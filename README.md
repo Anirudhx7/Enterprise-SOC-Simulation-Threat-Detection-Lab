@@ -69,7 +69,7 @@ Built to practice real SOC workflows, including:
 - **Hydra** (for brute-force simulation)
 - **MITRE ATT&CK**
 - **GPO Hardening**
-
+<img src='https://github.com/Anirudhx7/Enterprise-SOC-Simulation-Threat-Detection-Lab/blob/1b9c6c2fae71156125031d995d692e803a70f3e3/images/architecture.png'>
 ---
 
 # ⚡ 2. Attack Scenarios Simulated
