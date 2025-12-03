@@ -196,9 +196,9 @@ index=sysmon EventCode=1
     sysmon-config.xml
     splunk-inputs.conf
 
-/screenshots
-    event_flows/
-    dashboards/
+/images
+    setup.png
+    architecture.png
 ```
 
 ---
