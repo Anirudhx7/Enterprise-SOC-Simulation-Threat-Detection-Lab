@@ -226,5 +226,4 @@ This is the exact kind of workflow used in real SOC Tier 1 & Tier 2 environments
 **Anirudh Mehandru**  
 SOC Analyst | Blue Team | Detection Engineering  
 Always building labs, learning in public, and sharing my journey.
-<img src='https://github.com/Anirudhx7/Enterprise-SOC-Simulation-Threat-Detection-Lab/blob/e4ced26f3dc7d06a41a198bf69901b0dfc33b87c/images/setup.png'>
 LinkedIn → https://linkedin.com/in/anirudh-mehandru
