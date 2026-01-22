@@ -1,5 +1,11 @@
 # 🛡️ Enterprise SOC Simulation & Threat Detection Lab  
-**Active Directory | Sysmon | Splunk SIEM | Brute Force | Persistence | MITRE ATT&CK**
+
+![Splunk](https://img.shields.io/badge/Splunk-SIEM-000000?style=flat&logo=splunk&logoColor=white)
+![Active Directory](https://img.shields.io/badge/Active%20Directory-Identity-0078D6?style=flat&logo=microsoft&logoColor=white)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-Server-E95420?style=flat&logo=ubuntu&logoColor=white)
+![MITRE ATT&CK](https://img.shields.io/badge/MITRE%20ATT&CK-Framework-E01F26?style=flat&logo=target&logoColor=white)
+![Kali Linux](https://img.shields.io/badge/Kali%20Linux-Red%20Team-557C94?style=flat&logo=kalilinux&logoColor=white)
+![Sysmon](https://img.shields.io/badge/Sysmon-Telemetry-8148DD?style=flat&logo=windows-terminal&logoColor=white)
 
 A hands-on SOC (Security Operations Center) simulation designed to replicate **real-world enterprise detection workflows**.  
 This project demonstrates how identity attacks, persistence techniques, and suspicious command execution appear inside Windows logs and how a SOC analyst detects, investigates, and documents them.
